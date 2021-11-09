@@ -1,1 +1,1 @@
-LAB=thread
+LAB=traps
