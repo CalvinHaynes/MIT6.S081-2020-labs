@@ -484,3 +484,31 @@ sys_pipe(void)
   }
   return 0;
 }
+
+
+#ifdef LAB_NET
+int
+sys_connect(void)
+{
+  struct file *f;
+  int fd;
+  uint32 raddr;
+  uint32 rport;
+  uint32 lport;
+
+  if (argint(0, (int*)&raddr) < 0 ||
+      argint(1, (int*)&lport) < 0 ||
+      argint(2, (int*)&rport) < 0) {
+    return -1;
+  }
+
+  if(sockalloc(&f, raddr, lport, rport) < 0)
+    return -1;
+  if((fd=fdalloc(f)) < 0){
+    fileclose(f);
+    return -1;
+  }
+
+  return fd;
+}
+#endif
