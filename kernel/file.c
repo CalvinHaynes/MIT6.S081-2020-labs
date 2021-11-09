@@ -166,10 +166,10 @@ filewrite(struct file *f, uint64 addr, int n)
       iunlock(f->ip);
       end_op();
 
-      if(r != n1){
-        // error from writei
+      if(r < 0)
         break;
-      }
+      if(r != n1)
+        panic("short filewrite");
       i += r;
     }
     ret = (i == n ? n : -1);

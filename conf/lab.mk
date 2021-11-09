@@ -1,1 +1,1 @@
-LAB=fs
+LAB=lazy
