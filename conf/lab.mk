@@ -1,1 +1,1 @@
-LAB=net
+LAB=pgtbl

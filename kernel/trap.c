@@ -53,7 +53,7 @@ usertrap(void)
   if(r_scause() == 8){
     // system call
 
-    if(lockfree_read4(&p->killed))
+    if(p->killed)
       exit(-1);
 
     // sepc points to the ecall instruction,
@@ -68,16 +68,13 @@ usertrap(void)
   } else if((which_dev = devintr()) != 0){
     // ok
   } else {
-
-    
     printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
     printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
     p->killed = 1;
   }
 
-  if(lockfree_read4(&p->killed))
+  if(p->killed)
     exit(-1);
-  
 
   // give up the CPU if this is a timer interrupt.
   if(which_dev == 2)
@@ -192,13 +189,7 @@ devintr()
       uartintr();
     } else if(irq == VIRTIO0_IRQ){
       virtio_disk_intr();
-    }
-#ifdef LAB_NET
-    else if(irq == E1000_IRQ){
-      e1000_intr();
-    }
-#endif
-    else if(irq){
+    } else if(irq){
       printf("unexpected interrupt irq=%d\n", irq);
     }
 
