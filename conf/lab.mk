@@ -1,1 +1,1 @@
-LAB=cow
+LAB=fs
