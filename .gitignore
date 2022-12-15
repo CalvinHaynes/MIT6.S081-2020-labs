@@ -20,3 +20,4 @@ xv6.out*
 .vagrant/
 submissions/
 .idea
+venv
