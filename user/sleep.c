@@ -8,6 +8,7 @@ main(int argc, char *argv[])
     fprintf(2, "usage: sleep [time]\n");
     exit(1);
   }
+
   int time = atoi(argv[1]);
   sleep(time);
 

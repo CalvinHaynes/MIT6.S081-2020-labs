@@ -18,19 +18,19 @@ main(int argc, char *argv[])
     else{
       printf("received ping error\n",getpid());
     }
+    close(p[0]);
     write(p[1], buf, 1);
     close(p[1]);
-    close(p[0]);
   } else {
     write(p[1], "a", 1);
-    sleep(1);
+    close(p[1]);
+    wait(0);
     if(read(p[0],buf,1) >0){
       printf("%d: received pong\n",getpid());
     }
     else{
       printf("received pong error\n",getpid());
     }
-    close(p[1]);
     close(p[0]);
 }
   exit(0);
