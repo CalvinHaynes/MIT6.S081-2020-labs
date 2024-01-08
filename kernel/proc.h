@@ -107,4 +107,6 @@ struct proc {
   int interval;                // lab4-3
   uint64 handler;              // lab4-3
   int passedticks;             // lab4-3
+  struct trapframe *trapframecopy;  // the copy of trapframe - lab 4-3
+  
 };

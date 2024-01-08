@@ -100,7 +100,15 @@ sys_uptime(void)
 // lab4-3
 uint64
 sys_sigreturn(void){
-  return 0;
+  struct proc *p = myproc();
+
+  if(p->trapframecopy != p->trapframe + 512){
+    return -1;
+  }
+  memmove(p->trapframe, p->trapframecopy, sizeof(struct trapframe));
+  p->passedticks = 0;
+  p->trapframecopy = 0;
+  return p->trapframe->a0;
 }
 
 // lab4-3

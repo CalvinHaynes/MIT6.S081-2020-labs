@@ -78,7 +78,8 @@ usertrap(void)
   // lab4-3
   if(which_dev == 2){
     if(p->interval != 0 && ++p->passedticks == p->interval){
-      p->passedticks = 0;
+      p->trapframecopy = p->trapframe + 512;
+      memmove(p->trapframecopy, p->trapframe, sizeof(struc trapframe));
       p->trapframe->epc = p->handler;
     }
   }
