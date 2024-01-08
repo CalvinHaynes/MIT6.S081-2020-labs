@@ -79,7 +79,7 @@ usertrap(void)
   if(which_dev == 2){
     if(p->interval != 0 && ++p->passedticks == p->interval){
       p->trapframecopy = p->trapframe + 512;
-      memmove(p->trapframecopy, p->trapframe, sizeof(struc trapframe));
+      memmove(p->trapframecopy, p->trapframe, sizeof(struct trapframe));
       p->trapframe->epc = p->handler;
     }
   }
