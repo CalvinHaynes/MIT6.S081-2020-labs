@@ -189,3 +189,4 @@ void            virtio_disk_intr(void);
 // cow.c - lab6
 void            increfcnt(uint64 pa);
 uint8           decrefcnt(uint64 pa);
+uint64          walkcowaddr(pagetable_t pagetable, uint64 va);
