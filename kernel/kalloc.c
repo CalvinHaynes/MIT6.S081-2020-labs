@@ -35,9 +35,11 @@ freerange(void *pa_start, void *pa_end)
 {
   char *p;
   p = (char*)PGROUNDUP((uint64)pa_start);
-  for(; p + PGSIZE <= (char*)pa_end; p += PGSIZE)
-  increfcnt((uint64)p); // lab6
+  for(; p + PGSIZE <= (char*)pa_end; p += PGSIZE){
+    increfcnt((uint64)p); // lab6
     kfree(p);
+  }
+  
 }
 
 // Free the page of physical memory pointed at by v,
@@ -49,10 +51,13 @@ kfree(void *pa)
 {
   struct run *r;
 
+  if(((uint64)pa % PGSIZE) != 0)
+    panic("kfree1");
+
   if(((uint64)pa % PGSIZE) != 0 || (char*)pa < end || (uint64)pa >= PHYSTOP)
     panic("kfree");
 
-    
+
   // lab6
   if(decrefcnt((uint64)pa)){
     return;
