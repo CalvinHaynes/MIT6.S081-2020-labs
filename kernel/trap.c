@@ -65,11 +65,10 @@ usertrap(void)
     intr_on();
 
     syscall();
-  }else if(r_scause == 15){ // cow - lab6
-  if(walkcowaddr(p->pagetable, r_stval()) ==  0){
-    goto bad;
-  }
-
+  }else if(r_scause() == 15){ // cow - lab6
+    if(walkcowaddr(p->pagetable, r_stval()) ==  0){
+      goto bad;
+    }
   } else if((which_dev = devintr()) != 0){
     // ok
   } else {
