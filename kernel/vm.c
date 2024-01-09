@@ -470,7 +470,7 @@ walkcowaddr(pagetable_t pagetable, uint64 va){
     if((*pte & PTE_COW) == 0){
       return 0;
     }
-    if((mem == kalloc()) == 0){
+    if((mem = kalloc()) == 0){
       return 0;
     }
     memmove(mem, (void*)pa, PGSIZE);
