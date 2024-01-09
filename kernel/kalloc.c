@@ -36,6 +36,7 @@ freerange(void *pa_start, void *pa_end)
   char *p;
   p = (char*)PGROUNDUP((uint64)pa_start);
   for(; p + PGSIZE <= (char*)pa_end; p += PGSIZE)
+  increfcnt((uint64)p); // lab6
     kfree(p);
 }
 
@@ -50,6 +51,10 @@ kfree(void *pa)
 
   if(((uint64)pa % PGSIZE) != 0 || (char*)pa < end || (uint64)pa >= PHYSTOP)
     panic("kfree");
+  // lab6
+  if(decrefcnt((uint64)pa)){
+    return;
+  }
 
   // Fill with junk to catch dangling refs.
   memset(pa, 1, PGSIZE);
@@ -75,6 +80,9 @@ kalloc(void)
   if(r)
     kmem.freelist = r->next;
   release(&kmem.lock);
+
+  // ref-cnt to 1 - lab6
+  increfcnt((uint64)r);
 
   if(r)
     memset((char*)r, 5, PGSIZE); // fill with junk
