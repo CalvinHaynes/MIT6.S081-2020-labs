@@ -445,6 +445,7 @@ copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
   }
 }
 
+// lab6
 uint64
 walkcowaddr(pagetable_t pagetable, uint64 va){
   pte_t *pte;
