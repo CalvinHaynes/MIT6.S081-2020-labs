@@ -5,7 +5,7 @@
 #include <pthread.h>
 #include <sys/time.h>
 
-#define NBUCKET 5
+#define NBUCKET 7
 #define NKEYS 100000
 
 struct entry {
@@ -50,8 +50,10 @@ void put(int key, int value)
     // update the existing key.
     e->value = value;
   } else {
+    pthread_mutex_lock(&locks[i]);    // lock - lab7-2
     // the new is new.
     insert(key, value, &table[i], table[i]);
+    pthread_mutex_unlock(&locks[i]);  // unlock - lab7-2
   }
 }
 
@@ -96,6 +98,8 @@ get_thread(void *xa)
   return NULL;
 }
 
+pthread_mutex_t locks[NBUCKET]; // lab7-2
+
 int
 main(int argc, char *argv[])
 {
@@ -113,6 +117,10 @@ main(int argc, char *argv[])
   assert(NKEYS % nthread == 0);
   for (int i = 0; i < NKEYS; i++) {
     keys[i] = random();
+  }
+
+  for(int i = 0; i < NBUCKET; i++){
+    pthread_mutex_init(&locks[i], NULL);
   }
 
   //
