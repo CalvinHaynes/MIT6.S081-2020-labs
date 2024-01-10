@@ -8,6 +8,8 @@
 #define NBUCKET 7
 #define NKEYS 100000
 
+pthread_mutex_t locks[NBUCKET]; // lab7-2
+
 struct entry {
   int key;
   int value;
@@ -98,7 +100,6 @@ get_thread(void *xa)
   return NULL;
 }
 
-pthread_mutex_t locks[NBUCKET]; // lab7-2
 
 int
 main(int argc, char *argv[])
@@ -119,6 +120,7 @@ main(int argc, char *argv[])
     keys[i] = random();
   }
 
+  // lab7-2
   for(int i = 0; i < NBUCKET; i++){
     pthread_mutex_init(&locks[i], NULL);
   }
